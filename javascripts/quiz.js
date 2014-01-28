@@ -1,0 +1,338 @@
+// Question array
+var allQuestions = [
+{
+    question: "Who is Prime Minister of the United Kingdom?", 
+    choices: ["David Cameron", "Gordon Brown", "Winston Churchill", "Tony Blair"], 
+    correctAnswer:0
+},
+{
+	question: "What is Javascript?", 
+	choices: ["An ancient language", "A programming language", "A medieval manuscript", "An internet troll"], 
+	correctAnswer:1
+},
+{
+	question : "Where is Venice?",
+	choices : ["Peru", "Greece", "US", "Italy", "Congo"],
+	correctAnswer : 3
+},
+{
+	question : "What does RGB mean?",
+	choices : ["Red, Green, Blue", "Real Graphics Body",  "SWAG"],
+	correctAnswer : 0
+},
+{
+	question : "How many strings has a  guitar?",
+	choices : [3,4,5,6,7,8],
+	correctAnswer : 3
+}
+];
+
+
+// Get key elements
+var body = document.body;
+var qTitle = document.querySelector('.qtitle');
+var qNum = document.querySelector('#qnum');
+var qText = document.querySelector('.qtext');
+var answer = document.querySelector('#answer');
+var nextBtn = document.querySelector('#next');
+var quizContainer = nextBtn.parentNode;
+var result = document.querySelector('#result');
+var tsText = document.querySelector('#tsText');
+var retryBtn = document.querySelector('#retry');
+var fragQuiz = document.querySelector('#frag-quiz');
+var fragResult = document.querySelector('#frag-result');
+
+// Init Vars
+var curNum = 1;
+var qCount = allQuestions.length;
+var tScore = new Array(qCount);
+// Chosen Answer
+var qAns = null;
+// Correct Answer
+var cAns = null;
+// Question Nodes
+var qNumCur = document.createTextNode(curNum);
+var qTextCur = document.createTextNode(allQuestions[0].question);
+// // Button States
+// var downBtn = '0';
+
+function quizInit() {
+    // Generate Question Title Number
+    qNum.appendChild(qNumCur);
+    // Generate Question Text
+    qText.appendChild(qTextCur);
+    choiceGen();
+}
+
+// Quiz Update Function
+function quizUp() {
+    if(choiceChk()) {
+        var existWarn = document.getElementById("choice-warn");
+        if(existWarn) {
+            quizContainer.removeChild(existWarn);
+        }
+        qNumCur.nodeValue = ++curNum;
+        qTextCur.nodeValue = allQuestions[curNum - 1].question;
+        choiceGen();
+    }
+}
+
+// Choices
+function choiceGen() {
+    // Remove existing choices first
+    removeAllChild(answer);
+    // Remove event handlers for 'li'
+    EventUtil.removeHandler(answer, 'click', liHandler);
+
+    for(var cCount = 1, cLen = allQuestions[curNum - 1].choices.length; cCount <= cLen; cCount++) {
+        var choice = document.createElement('li');
+        //choice.id = 'li' + cCount;
+        var choiceItem = document.createElement('input');
+        choiceItem.type = 'radio';
+        choiceItem.value = cCount - 1;
+        choiceItem.name = 'answer';
+        choiceItem.id = 'ci' + cCount;
+        var choiceLabel = document.createElement('label');
+        choiceLabel.setAttribute('for', 'ci' + cCount);
+        var labelText = document.createTextNode(allQuestions[curNum - 1].choices[cCount - 1]);
+        choiceLabel.appendChild(labelText);
+        choice.appendChild(choiceItem);
+        choice.appendChild(choiceLabel);
+        answer.appendChild(choice);
+    }
+    cAns = allQuestions[curNum - 1].correctAnswer;
+    // Add event handlers for 'li'
+    EventUtil.addHandler(answer, 'click', liHandler);
+}
+
+// Delegate Handler for 'li' click
+function liHandler(event){
+    event = EventUtil.getEvent(event);
+    var target = EventUtil.getTarget(event);
+    if(target.tagName == 'LI'){
+        target.firstChild.checked = true;
+    }
+
+}
+
+
+// Choice Checker & Tally Score
+function choiceChk() {
+    var radios = document.querySelectorAll('input[name="answer"]');
+    // Get the checked choice
+    var cValue = null;
+    var scoreCur;
+    for (var i = 0; i < radios.length; i++) {
+        if(radios[i].checked) {
+            cValue = radios[i].value;
+        }
+    }
+    // Check the choice
+    if(cValue == cAns) {
+        scoreCur = '1';
+    } else if(cValue === null) {
+        doWarn('Make your choice.');
+        return false;
+    } else {
+        scoreCur = '0';
+    }
+    // Tally score
+    tScore[curNum - 1] = scoreCur;
+    return true;
+}
+
+// Next Button
+var nextUp = function() {
+    //nextBtn.className = '';
+    if(curNum < qCount){
+        quizUp();
+    } else {
+        choiceChk();
+        showResult();
+        fragQuiz.className = 'wrapper hide';
+        fragResult.className = 'wrapper';
+    }
+};
+    // Add events handler for the next button
+//EventUtil.addHandler(nextBtn, 'mouseup', nextUp);
+
+//---------
+// Delegate Bind
+//---------
+
+//---------
+// Mouse Events
+//---------
+
+// EventUtil.addHandler(body, 'mousedown', function(event){
+//     event = EventUtil.getEvent(event);
+//     var target = EventUtil.getTarget(event);
+    
+//     switch(target.id) {
+//             case 'next':
+//                 EventUtil.preventDefault(event);
+//                 nextBtn.className = 'btndown';
+//                 downBtn = '1';
+//                 break;
+//             case 'retry':
+//                 EventUtil.preventDefault(event);
+//                 retryBtn.className = 'btndown';
+//                 downBtn = '2';
+//                 break;
+//     }
+// });
+// EventUtil.addHandler(body, 'mouseup', function(event){
+//     switch(downBtn) {
+//             case '1':
+//                 EventUtil.preventDefault(event);
+//                 downBtn = '0';
+//                 nextBtn.className = '';
+//                 break;
+//             case '2':
+//                 EventUtil.preventDefault(event);
+//                 downBtn = '0';
+//                 retryBtn.className = '';
+//                 break;
+//     }
+// });
+//-----------------------
+// Delegate 
+// EventUtil.addHandler(body, 'click', function(event){
+//     event = EventUtil.getEvent(event);
+//     var target = EventUtil.getTarget(event);
+//     console.log('click');
+    
+//     switch(target.id) {
+//             case 'next':
+//                 console.log('next');
+//                 //EventUtil.preventDefault(event);
+//                 nextUp();
+//                 break;
+//             case 'retry':
+//                 //EventUtil.preventDefault(event);
+//                 retryUp();
+//                 break;
+//     }
+// });
+
+//----Standalone------------
+EventUtil.addHandler(nextBtn, 'click', function(event) {
+    EventUtil.preventDefault(event);
+    nextUp();
+});
+EventUtil.addHandler(retry, 'click', function(event) {
+    EventUtil.preventDefault(event);
+    retryUp();
+});
+
+// Result
+function showResult() {
+    removeAllChild(result, tsText);
+    var corCount = 0;
+    for(var rCount = 1; rCount <= qCount; rCount++) {
+        var qScore = document.createElement('li');
+        var qsText = document.createTextNode(rCount + '. ');
+        qScore.appendChild(qsText);
+        var sIcon = document.createElement('i');
+        if(tScore[rCount - 1] == '1') {
+            sIcon.className = 'fa fa-check';
+            corCount++;
+        } else if(tScore[rCount - 1] == '0') {
+            sIcon.className = 'fa fa-times';
+        }
+        qScore.appendChild(sIcon);
+        result.appendChild(qScore);
+    }
+    var tText = document.createTextNode(corCount + '/' +qCount);
+    tsText.appendChild(tText); 
+}
+
+// Retry Button
+var retryUp = function() {
+    //retryBtn.className = '';
+    fragQuiz.className = 'wrapper';
+    fragResult.className = 'wrapper hide';
+    quizReset();
+}
+
+// Add events handler for the retry button
+//EventUtil.addHandler(retryBtn, 'mouseup', retryUp);
+
+
+
+// Quiz Reset
+function quizReset() {
+    // Remove existing nodes first
+    removeAllChild(qNum, qText, answer, result, tsText);
+    curNum = 1;
+    qCount = allQuestions.length;
+    tScore = new Array(qCount);
+    // Chosen Answer
+    qAns = null;
+    // Correct Answer
+    cAns = null;
+    // Questions reset
+    qNumCur.nodeValue = curNum;
+    qTextCur.nodeValue = allQuestions[curNum - 1].question;
+    // Re-Init
+    quizInit();  
+}
+
+
+
+
+
+
+
+
+
+
+// Utilities
+
+// removeAllChild
+function removeAllChild(elems) {
+    for(var i = 0, len = arguments.length; i < len; i++){
+        while(arguments[i].firstChild) {
+            arguments[i].removeChild(arguments[i].firstChild);
+        }
+    }
+}
+
+// Show warning text
+function doWarn(text) {
+	var choiceWarn = document.createElement("p");
+	choiceWarn.setAttribute("id", "choice-warn");
+	var warnText = document.createTextNode(text);
+	choiceWarn.appendChild(warnText);
+	var existWarn = document.getElementById("choice-warn");
+	if(existWarn) {
+		quizContainer.removeChild(existWarn);
+	}
+    quizContainer.insertBefore(choiceWarn, nextBtn);
+}
+
+// Handy multiple onload function
+function addLoadEvent(func) {
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function') {
+		window.onload = func;
+	} else {
+		window.onload = function() {
+			oldonload();
+			func();
+		};
+	}
+}
+
+// ONLOAD
+addLoadEvent(quizInit);
+
+
+
+
+
+
+
+
+
+
