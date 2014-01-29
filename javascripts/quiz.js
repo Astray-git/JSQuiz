@@ -53,8 +53,6 @@ var cAns = null;
 // Question Nodes
 var qNumCur = document.createTextNode(curNum);
 var qTextCur = document.createTextNode(allQuestions[0].question);
-// // Button States
-// var downBtn = '0';
 
 function quizInit() {
     // Generate Question Title Number
@@ -115,7 +113,6 @@ function liHandler(event){
 
 }
 
-
 // Choice Checker & Tally Score
 function choiceChk() {
     var radios = document.querySelectorAll('input[name="answer"]');
@@ -143,7 +140,6 @@ function choiceChk() {
 
 // Next Button
 var nextUp = function() {
-    //nextBtn.className = '';
     if(curNum < qCount){
         quizUp();
     } else {
@@ -153,69 +149,15 @@ var nextUp = function() {
         fragResult.className = 'wrapper';
     }
 };
-    // Add events handler for the next button
-//EventUtil.addHandler(nextBtn, 'mouseup', nextUp);
 
-//---------
-// Delegate Bind
-//---------
+// Retry Button
+var retryUp = function() {
+    fragQuiz.className = 'wrapper';
+    fragResult.className = 'wrapper hide';
+    quizReset();
+}
 
-//---------
-// Mouse Events
-//---------
-
-// EventUtil.addHandler(body, 'mousedown', function(event){
-//     event = EventUtil.getEvent(event);
-//     var target = EventUtil.getTarget(event);
-    
-//     switch(target.id) {
-//             case 'next':
-//                 EventUtil.preventDefault(event);
-//                 nextBtn.className = 'btndown';
-//                 downBtn = '1';
-//                 break;
-//             case 'retry':
-//                 EventUtil.preventDefault(event);
-//                 retryBtn.className = 'btndown';
-//                 downBtn = '2';
-//                 break;
-//     }
-// });
-// EventUtil.addHandler(body, 'mouseup', function(event){
-//     switch(downBtn) {
-//             case '1':
-//                 EventUtil.preventDefault(event);
-//                 downBtn = '0';
-//                 nextBtn.className = '';
-//                 break;
-//             case '2':
-//                 EventUtil.preventDefault(event);
-//                 downBtn = '0';
-//                 retryBtn.className = '';
-//                 break;
-//     }
-// });
-//-----------------------
-// Delegate 
-// EventUtil.addHandler(body, 'click', function(event){
-//     event = EventUtil.getEvent(event);
-//     var target = EventUtil.getTarget(event);
-//     console.log('click');
-    
-//     switch(target.id) {
-//             case 'next':
-//                 console.log('next');
-//                 //EventUtil.preventDefault(event);
-//                 nextUp();
-//                 break;
-//             case 'retry':
-//                 //EventUtil.preventDefault(event);
-//                 retryUp();
-//                 break;
-//     }
-// });
-
-//----Standalone------------
+// Add event handler
 EventUtil.addHandler(nextBtn, 'click', function(event) {
     EventUtil.preventDefault(event);
     nextUp();
@@ -247,19 +189,6 @@ function showResult() {
     tsText.appendChild(tText); 
 }
 
-// Retry Button
-var retryUp = function() {
-    //retryBtn.className = '';
-    fragQuiz.className = 'wrapper';
-    fragResult.className = 'wrapper hide';
-    quizReset();
-}
-
-// Add events handler for the retry button
-//EventUtil.addHandler(retryBtn, 'mouseup', retryUp);
-
-
-
 // Quiz Reset
 function quizReset() {
     // Remove existing nodes first
@@ -278,16 +207,22 @@ function quizReset() {
     quizInit();  
 }
 
+// Show warning text
+function doWarn(text) {
+    var choiceWarn = document.createElement("p");
+    choiceWarn.setAttribute("id", "choice-warn");
+    var warnText = document.createTextNode(text);
+    choiceWarn.appendChild(warnText);
+    var existWarn = document.getElementById("choice-warn");
+    if(existWarn) {
+        quizContainer.removeChild(existWarn);
+    }
+    quizContainer.insertBefore(choiceWarn, nextBtn);
+}
 
-
-
-
-
-
-
-
-
+//-----------
 // Utilities
+//-----------
 
 // removeAllChild
 function removeAllChild(elems) {
@@ -296,19 +231,6 @@ function removeAllChild(elems) {
             arguments[i].removeChild(arguments[i].firstChild);
         }
     }
-}
-
-// Show warning text
-function doWarn(text) {
-	var choiceWarn = document.createElement("p");
-	choiceWarn.setAttribute("id", "choice-warn");
-	var warnText = document.createTextNode(text);
-	choiceWarn.appendChild(warnText);
-	var existWarn = document.getElementById("choice-warn");
-	if(existWarn) {
-		quizContainer.removeChild(existWarn);
-	}
-    quizContainer.insertBefore(choiceWarn, nextBtn);
 }
 
 // Handy multiple onload function
