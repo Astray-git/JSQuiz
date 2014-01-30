@@ -13,142 +13,148 @@ h1 {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 0 7px 0 -3px rgba(255, 255, 255, 0.8), 0 8px 1px -3px rgba(0, 0, 0, 0.3); }
   .wrapper * {
     margin: 0; }
-  .wrapper #quizpanel {
-    background-color: #37a883;
-    border-radius: 5px 5px 0 0;
-    box-shadow: inset 0 -3px 4px -3px rgba(102, 102, 102, 0.75); }
-    .wrapper #quizpanel .qtitle, .wrapper #quizpanel .rtitle {
-      font-family: 'PT Serif', Palatino, serif;
-      font-size: 2.5em;
-      font-weight: bold;
-      color: #3f4944;
-      display: inline-block;
-      padding: 0 10px 5px; }
-    .wrapper #quizpanel #choice-warn {
-      display: inline-block;
-      position: relative;
-      text-align: center;
-      background-color: #e17979;
-      color: #FFF;
-      border: 2px solid transparent;
-      font-size: 1.5em;
-      line-height: 1.5em;
-      padding: 1px 5px;
-      width: 205px;
-      top: -3px;
-      left: 50px;
-      -webkit-transition: .4s;
-      -moz-transition: .4s;
-      -ms-transition: .4s;
-      -o-transition: .4s;
-      transition: .4s;
-      animation: warnAnim ease-out .5s;
-      animation-iteration-count: 1;
-      animation-fill-mode: forwards;
-      /*when the spec is finished*/
-      -webkit-animation: warnAnim ease-out .5s;
-      -webkit-animation-iteration-count: 1;
-      -webkit-animation-fill-mode: forwards;
-      /*Chrome 16+, Safari 4+*/
-      -moz-animation: warnAnim ease-out .5s;
-      -moz-animation-iteration-count: 1;
-      -moz-animation-fill-mode: forwards;
-      /*FF 5+*/
-      -o-animation: warnAnim ease-out .5s;
-      -o-animation-iteration-count: 1;
-      -o-animation-fill-mode: forwards;
-      /*Not implemented yet*/
-      -ms-animation: warnAnim ease-out .5s;
-      -ms-animation-iteration-count: 1;
-      -ms-animation-fill-mode: forwards;
-      /*IE 10+*/ }
-    .wrapper #quizpanel button#next, .wrapper #quizpanel button#retry {
-      float: right;
-      position: relative;
-      width: 43px;
-      margin: 8px 20px;
-      padding: 5px 0;
-      background-color: rgba(255, 255, 255, 0.8);
-      border: none;
-      color: #37a883;
-      font-size: 1.5em;
-      border-radius: 50%;
-      box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.25); }
-      .wrapper #quizpanel button#next:hover, .wrapper #quizpanel button#retry:hover {
-        background-color: rgba(240, 240, 240, 0.7);
-        top: -1px; }
-      .wrapper #quizpanel button#next:active, .wrapper #quizpanel button#retry:active {
-        top: 1px;
-        background-color: rgba(235, 235, 235, 0.7);
-        box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.25); }
   .wrapper .qtext {
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 1.5em;
     font-weight: 200;
     color: #3f4944;
     padding: 5px 10px; }
-  .wrapper #answer {
-    padding-left: 0; }
-    .wrapper #answer li {
-      list-style: none;
-      padding: 5px 10px;
-      margin: 5px 0;
-      cursor: pointer; }
-      .wrapper #answer li label {
-        font-family: 'Open Sans', Arial, sans-serif;
-        font-size: 1.5em;
-        font-weight: 200;
-        color: #3f4944;
-        display: inline-block;
-        cursor: pointer;
-        position: relative;
-        padding-left: 25px;
-        font-size: 1em; }
-      .wrapper #answer li input[type=radio] {
-        display: none; }
-      .wrapper #answer li label:before {
-        content: "";
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        margin-right: 10px;
-        position: absolute;
-        left: 0;
-        bottom: 1px;
-        background-color: #ddd;
-        box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
-        border-radius: 50%; }
-      .wrapper #answer li input[type=radio]:checked + label:before {
-        content: "\2022";
-        font-family: 'PT Serif', serif;
-        font-size: 30px;
-        text-align: center;
-        line-height: 14px; }
-      .wrapper #answer li input[type=radio]:checked ~ label {
-        color: #37a883; }
-      .wrapper #answer li:hover {
-        background-color: #E4E3D5; }
   .wrapper .rcontent {
     position: relative; }
-    .wrapper .rcontent #result {
-      list-style: none;
-      padding: 5px 10px; }
-      .wrapper .rcontent #result li {
-        font-family: 'Open Sans', Arial, sans-serif;
-        font-size: 1.5em;
-        font-weight: 200;
-        color: #3f4944;
-        padding: 5px 0; }
-    .wrapper .rcontent #tscore {
+
+#choice-warn {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  background-color: #e17979;
+  color: #FFF;
+  border: 2px solid transparent;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  padding: 1px 5px;
+  width: 205px;
+  top: -3px;
+  left: 50px;
+  -webkit-transition: .4s;
+  -moz-transition: .4s;
+  -ms-transition: .4s;
+  -o-transition: .4s;
+  transition: .4s;
+  animation: warnAnim ease-out .5s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  /*when the spec is finished*/
+  -webkit-animation: warnAnim ease-out .5s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+  /*Chrome 16+, Safari 4+*/
+  -moz-animation: warnAnim ease-out .5s;
+  -moz-animation-iteration-count: 1;
+  -moz-animation-fill-mode: forwards;
+  /*FF 5+*/
+  -o-animation: warnAnim ease-out .5s;
+  -o-animation-iteration-count: 1;
+  -o-animation-fill-mode: forwards;
+  /*Not implemented yet*/
+  -ms-animation: warnAnim ease-out .5s;
+  -ms-animation-iteration-count: 1;
+  -ms-animation-fill-mode: forwards;
+  /*IE 10+*/ }
+
+#next, #retry {
+  float: right;
+  position: relative;
+  width: 43px;
+  margin: 8px 20px;
+  padding: 5px 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  color: #37a883;
+  font-size: 1.5em;
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.25); }
+  #next:hover, #retry:hover {
+    background-color: rgba(240, 240, 240, 0.7);
+    top: -1px; }
+  #next:active, #retry:active {
+    top: 1px;
+    background-color: rgba(235, 235, 235, 0.7);
+    box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.25); }
+
+#quizpanel {
+  background-color: #37a883;
+  border-radius: 5px 5px 0 0;
+  box-shadow: inset 0 -3px 4px -3px rgba(102, 102, 102, 0.75); }
+  #quizpanel .qtitle, #quizpanel .rtitle {
+    font-family: 'PT Serif', Palatino, serif;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #3f4944;
+    display: inline-block;
+    padding: 0 10px 5px; }
+
+#answer {
+  padding-left: 0; }
+  #answer li {
+    list-style: none;
+    padding: 5px 10px;
+    margin: 5px 0;
+    cursor: pointer; }
+    #answer li label {
       font-family: 'Open Sans', Arial, sans-serif;
       font-size: 1.5em;
       font-weight: 200;
       color: #3f4944;
+      display: inline-block;
+      cursor: pointer;
+      position: relative;
+      padding-left: 25px;
+      font-size: 1em; }
+    #answer li input[type=radio] {
+      display: none; }
+    #answer li label:before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
       position: absolute;
-      bottom: 40%;
-      right: 25%;
-      font-size: 2em;
-      font-weight: bold; }
+      left: 0;
+      bottom: 1px;
+      background-color: #ddd;
+      box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+      border-radius: 50%; }
+    #answer li input[type=radio]:checked + label:before {
+      content: "\2022";
+      font-family: 'PT Serif', serif;
+      font-size: 30px;
+      text-align: center;
+      line-height: 14px; }
+    #answer li input[type=radio]:checked ~ label {
+      color: #37a883; }
+    #answer li:hover {
+      background-color: #E4E3D5; }
+
+#result {
+  list-style: none;
+  padding: 5px 10px; }
+  #result li {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 1.5em;
+    font-weight: 200;
+    color: #3f4944;
+    padding: 5px 0; }
+
+#tscore {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 1.5em;
+  font-weight: 200;
+  color: #3f4944;
+  position: absolute;
+  bottom: 40%;
+  right: 25%;
+  font-size: 2em;
+  font-weight: bold; }
 
 .hide {
   display: none; }

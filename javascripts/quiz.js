@@ -27,32 +27,31 @@ var allQuestions = [
 }
 ];
 
-
-// Get key elements
-var body = document.body;
-var qTitle = document.querySelector('.qtitle');
-var qNum = document.querySelector('#qnum');
-var qText = document.querySelector('.qtext');
-var answer = document.querySelector('#answer');
-var nextBtn = document.querySelector('#next');
-var quizContainer = nextBtn.parentNode;
-var result = document.querySelector('#result');
-var tsText = document.querySelector('#tsText');
-var retryBtn = document.querySelector('#retry');
-var fragQuiz = document.querySelector('#frag-quiz');
-var fragResult = document.querySelector('#frag-result');
+var // Get key elements
+  body = document.body,
+  qTitle = document.querySelector('.qtitle'),
+  qNum = document.querySelector('#qnum'),
+  qText = document.querySelector('.qtext'),
+  answer = document.querySelector('#answer'),
+  nextBtn = document.querySelector('#next'),
+  quizContainer = nextBtn.parentNode,
+  result = document.querySelector('#result'),
+  tsText = document.querySelector('#tsText'),
+  retryBtn = document.querySelector('#retry'),
+  fragQuiz = document.querySelector('#frag-quiz'),
+  fragResult = document.querySelector('#frag-result');
 
 // Init Vars
-var curNum = 1;
-var qCount = allQuestions.length;
-var tScore = new Array(qCount);
+var curNum = 1,
+  qCount = allQuestions.length,
+  tScore = new Array(qCount);
 // Chosen Answer
 var qAns = null;
 // Correct Answer
 var cAns = null;
 // Question Nodes
-var qNumCur = document.createTextNode(curNum);
-var qTextCur = document.createTextNode(allQuestions[0].question);
+var qNumCur = document.createTextNode(curNum),
+  qTextCur = document.createTextNode(allQuestions[0].question);
 
 function quizInit() {
     // Generate Question Title Number
@@ -65,7 +64,7 @@ function quizInit() {
 // Quiz Update Function
 function quizUp() {
     if(choiceChk()) {
-        var existWarn = document.getElementById("choice-warn");
+        var existWarn = document.getElementById('choice-warn');
         if(existWarn) {
             quizContainer.removeChild(existWarn);
         }
@@ -84,7 +83,6 @@ function choiceGen() {
 
     for(var cCount = 1, cLen = allQuestions[curNum - 1].choices.length; cCount <= cLen; cCount++) {
         var choice = document.createElement('li');
-        //choice.id = 'li' + cCount;
         var choiceItem = document.createElement('input');
         choiceItem.type = 'radio';
         choiceItem.value = cCount - 1;
@@ -104,13 +102,12 @@ function choiceGen() {
 }
 
 // Delegate Handler for 'li' click
-function liHandler(event){
+function liHandler(event) {
     event = EventUtil.getEvent(event);
     var target = EventUtil.getTarget(event);
     if(target.tagName == 'LI'){
         target.firstChild.checked = true;
     }
-
 }
 
 // Choice Checker & Tally Score
@@ -125,9 +122,9 @@ function choiceChk() {
         }
     }
     // Check the choice
-    if(cValue == cAns) {
+    if (cValue == cAns) {
         scoreCur = '1';
-    } else if(cValue === null) {
+    } else if (cValue === null) {
         doWarn('Make your choice.');
         return false;
     } else {
@@ -140,7 +137,7 @@ function choiceChk() {
 
 // Next Button
 var nextUp = function() {
-    if(curNum < qCount){
+    if (curNum < qCount) {
         quizUp();
     } else {
         choiceChk();
@@ -171,15 +168,15 @@ EventUtil.addHandler(retry, 'click', function(event) {
 function showResult() {
     removeAllChild(result, tsText);
     var corCount = 0;
-    for(var rCount = 1; rCount <= qCount; rCount++) {
+    for (var rCount = 1; rCount <= qCount; rCount++) {
         var qScore = document.createElement('li');
         var qsText = document.createTextNode(rCount + '. ');
         qScore.appendChild(qsText);
         var sIcon = document.createElement('i');
-        if(tScore[rCount - 1] == '1') {
+        if (tScore[rCount - 1] == '1') {
             sIcon.className = 'fa fa-check';
             corCount++;
-        } else if(tScore[rCount - 1] == '0') {
+        } else if (tScore[rCount - 1] == '0') {
             sIcon.className = 'fa fa-times';
         }
         qScore.appendChild(sIcon);
@@ -209,12 +206,12 @@ function quizReset() {
 
 // Show warning text
 function doWarn(text) {
-    var choiceWarn = document.createElement("p");
-    choiceWarn.setAttribute("id", "choice-warn");
+    var choiceWarn = document.createElement('p');
+    choiceWarn.setAttribute('id', 'choice-warn');
     var warnText = document.createTextNode(text);
     choiceWarn.appendChild(warnText);
-    var existWarn = document.getElementById("choice-warn");
-    if(existWarn) {
+    var existWarn = document.getElementById('choice-warn');
+    if (existWarn) {
         quizContainer.removeChild(existWarn);
     }
     quizContainer.insertBefore(choiceWarn, nextBtn);
@@ -226,8 +223,8 @@ function doWarn(text) {
 
 // removeAllChild
 function removeAllChild(elems) {
-    for(var i = 0, len = arguments.length; i < len; i++){
-        while(arguments[i].firstChild) {
+    for (var i = 0, len = arguments.length; i < len; i++){
+        while (arguments[i].firstChild) {
             arguments[i].removeChild(arguments[i].firstChild);
         }
     }
@@ -248,13 +245,3 @@ function addLoadEvent(func) {
 
 // ONLOAD
 addLoadEvent(quizInit);
-
-
-
-
-
-
-
-
-
-
