@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>JS Quiz</title>
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
@@ -8,37 +8,35 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
+  </head>
+  <body>
     <header><h1>JS Quiz</h1></header>
     <div id="progress"><p class="ptext">1/10</p></div>
     <div class="wrapper" id="frag-quiz">
-        <div id="question">
-            <div id="quizpanel">
-            <h2 class="qtitle">Question <span id="qnum"></span></h2>
-            <button name="next" id="next">
-                <i class="fa fa-chevron-right"></i>
-            </button>
-            </div>
-            <p class="qtext"></p>
+      <div id="question">
+        <div class="quizpanel">
+          <h2 class="qtitle">Question <span id="qnum"></span></h2>
+          <button name="next" id="next">
+            <i class="fa fa-chevron-right"></i>
+          </button>
         </div>
-        <ul id="answer">
-        </ul>
+        <p class="qtext"></p>
+      </div>
+      <ul id="answer"></ul>
     </div>
     <div class="wrapper hide" id="frag-result">
-        <div id="quizpanel">
-            <h2 class="rtitle">Result</h2>
-            <button name="retry" id="retry">
-                <i class="fa fa-repeat"></i>
-            </button>
-	    </div>
-  	    <div class="rcontent">  
-            <ul id="result">
-            </ul>
-            <p id="tscore">Score: <span id="tsText"></span></p>
-        </div>
+      <div class="quizpanel">
+        <h2 class="rtitle">Result</h2>
+        <button name="retry" id="retry">
+          <i class="fa fa-repeat"></i>
+        </button>
+      </div>
+	    <div class="rcontent">  
+        <ul id="result"></ul>
+        <p id="tscore">Score: <span id="tsText"></span></p>
+      </div>
     </div>
     <script src="javascripts/EventUtil.js"></script>
     <script src="javascripts/quiz.js"></script>
-</body>
+  </body>
 </html>
