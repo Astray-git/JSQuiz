@@ -1,0 +1,44 @@
+[ 
+  { "choices" : [ "David Cameron",
+        "Gordon Brown",
+        "Winston Churchill",
+        "Tony Blair"
+      ],
+    "correctAnswer" : 0,
+    "question" : "Who is Prime Minister of the United Kingdom?"
+  },
+  { "choices" : [ "An ancient language",
+        "A programming language",
+        "A medieval manuscript",
+        "An internet troll"
+      ],
+    "correctAnswer" : 1,
+    "question" : "What is Javascript?"
+  },
+  { "choices" : [ "Peru",
+        "Greece",
+        "US",
+        "Italy",
+        "Congo"
+      ],
+    "correctAnswer" : 3,
+    "question" : "Where is Venice?"
+  },
+  { "choices" : [ "Red, Green, Blue",
+        "Real Graphics Body",
+        "SWAG"
+      ],
+    "correctAnswer" : 0,
+    "question" : "What does RGB mean?"
+  },
+  { "choices" : [ 3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+    "correctAnswer" : 3,
+    "question" : "How many strings has a  guitar?"
+  }
+]
