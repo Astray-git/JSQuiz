@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>JS Quiz</title>
+    <link href="http://cdn.staticfile.org/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=PT+Serif:700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/quiz.css"> 
+  </head>
+  <body>
+    <header><h1>JS Quiz</h1></header>
+    <div class="wrapper" id="frag-quiz">
+      <div class="quizpanel">
+        <h2 class="ptitle">Question <span id="qnum"></span></h2>
+        <button name="next" id="next">
+          <i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="wcontent">
+        <p class="qtext"></p>
+        <ul id="answer"></ul>
+      </div>
+    </div>
+    <div class="wrapper hide" id="frag-result">
+      <div class="quizpanel">
+        <h2 class="ptitle">Result</h2>
+        <button name="retry" id="retry">
+          <i class="fa fa-repeat"></i>
+        </button>
+      </div>
+	    <div class="wcontent">  
+        <ul id="result"></ul>
+        <p id="tscore">Score: <span id="tsText"></span></p>
+      </div>
+    </div>
+    <script src="javascripts/EventUtil.js"></script>
+    <script src="javascripts/quiz.js"></script>
+  </body>
+</html>
