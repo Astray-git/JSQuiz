@@ -1,1 +1,61 @@
 @charset "utf-8";
+
+%common {
+	display: block;
+	height: 50px;
+}
+
+@mixin layout($width: 100px, $margin-top: 10%, $margin-bottom: $margin-top) {
+	width: $width;
+	margin: $margin-top auto $margin-bottom;
+}
+@mixin font-text($size: 1.5em) {
+    font: {
+        family: 'Roboto Slab', Georgia, serif;
+        size: $size;
+    }
+    color: #3F4944;
+}
+
+.wcontent {
+	@include font-text;
+	max-height: 400px;
+	padding: 10px;
+}
+
+.usr-name {
+	@extend %common;
+	@include layout(300px, 15%, 0);
+	padding: 1px 10px;
+	border: 1px solid transparent;
+	border-radius: 5px;
+  background-color: #ddd; /* The Fallback */
+  background-color: transparentize(#ddd, 0.3);
+
+  -webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
+  &:focus {
+  	outline: darken(#ddd, 30%);
+		box-shadow: inset 1px 1px 5px darken(#ddd, 30%);
+	}
+	&::-webkit-input-placeholder {
+	  text-align: center;
+	}
+	/* Firefox 19+ */
+	&::-moz-placeholder {
+		text-align: center;
+	}
+	&:-ms-input-placeholder {
+	  text-align: center;
+	}
+	 /* Firefox 18- */
+	&:-moz-placeholder {
+	  text-align: center;
+	}
+}
+
+.login {
+	@extend %common;
+	@include layout();
+}

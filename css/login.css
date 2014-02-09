@@ -1,0 +1,40 @@
+.usr-name, .login {
+  display: block;
+  height: 50px; }
+
+.wcontent {
+  font-family: 'Roboto Slab', Georgia, serif;
+  font-size: 1.5em;
+  color: #3F4944;
+  max-height: 400px;
+  padding: 10px; }
+
+.usr-name {
+  width: 300px;
+  margin: 15% auto 0;
+  padding: 1px 10px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background-color: #ddd;
+  /* The Fallback */
+  background-color: rgba(221, 221, 221, 0.7);
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  /* Firefox 19+ */
+  /* Firefox 18- */ }
+  .usr-name:focus {
+    outline: #919191;
+    box-shadow: inset 1px 1px 5px #919191; }
+  .usr-name::-webkit-input-placeholder {
+    text-align: center; }
+  .usr-name::-moz-placeholder {
+    text-align: center; }
+  .usr-name:-ms-input-placeholder {
+    text-align: center; }
+  .usr-name:-moz-placeholder {
+    text-align: center; }
+
+.login {
+  width: 100px;
+  margin: 10% auto 10%; }

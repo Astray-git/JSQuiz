@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>JS Quiz</title>
-    <link href='http://fonts.googleapis.com/css?family=PT+Serif:700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/login.css">
@@ -16,9 +16,14 @@
         <h2 class="ptitle">Welcome to JS Quiz</h2>
       </div>
       <div class="wcontent">
-        <input type="text">
-        <input type="submit" name="login" value="Login">
+        <form action="quiz.html" id="myform">
+          <input type="text" class="usr-name" placeholder="enter your name" required >
+          <input type="submit" class="btn light login" name="login" value="Login">
+        </form>
       </div>
     </div>
+    <script src="javascripts/CookieUtil.js"></script>
+    <script src="javascripts/EventUtil.js"></script>
+    <script src="javascripts/login.js"></script>
   </body>
 </html>

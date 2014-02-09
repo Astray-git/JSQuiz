@@ -8,13 +8,13 @@ $highlight: #37A883;
 
 @mixin font-ptitle {
     font: {
-        family: 'PT Serif', Palatino, serif;
+        family: 'Open Sans', Verdana, sans-serif;
         size: 2.5em;
         weight: bold;
+        style: italic;
     }
     color: $quiz-text;
 }
-
 
 body {
     background-color: $body-bg;
@@ -28,18 +28,19 @@ h1 {
   max-width: 600px;
   margin: 10px auto;
   background-color: $wrapper-bg;
-  padding: 0 0 15px;
   border-radius: 5px 5px 0 0;
   box-shadow: 1px 1px 3px rgba(0,0,0,0.6), 0 7px 0 -3px rgba(255, 255, 255, 0.8), 0 8px 1px -3px rgba(0, 0, 0, 0.3);
-  * {
-    margin: 0;
-  }
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
   .quizpanel{
-  background-color: $highlight;
-  border-radius: 5px 5px 0 0;
-  box-shadow: inset 0 -3px 4px -3px rgba(102, 102, 102, 0.75);
+    position: relative;
+    background-color: $highlight;
+    border-radius: 5px 5px 0 0;
+    box-shadow: inset 0 -3px 4px -3px rgba(102, 102, 102, 0.75);
     .ptitle {
       @include font-ptitle;
+      margin: 0;
       display: inline-block;
       padding: 0 10px 5px;
     }
@@ -49,6 +50,40 @@ h1 {
   }
 }
 
-.hide {
-    display: none;
+.btn {
+  border: none;
+  border-radius: 5px;
+  background-color: $highlight; /* The Fallback */
+  background-color: transparentize($highlight, 0.3); 
+  color: #FFF;
+  box-shadow:1px 1px 3px 1px rgba(0,0,0, 0.25);
+  &:hover {
+    background-color: darken($highlight, 5%); /* The Fallback */
+    background-color: darken(transparentize($highlight, 0.3), 5%); 
+    top: -1px;
+  }
+  &:active {
+    top: 1px;
+    background-color: darken($highlight, 10%); /* The Fallback */
+    background-color: darken(transparentize($highlight, 0.3), 10%); 
+    box-shadow:1px 1px 4px 1px rgba(0,0,0, 0.25);
+  }
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+.hidden {
+  opacity: 0;
+  //display: none !important;
+  visibility: hidden;
+}
+
+.vhide {
+  opacity: 0;
+}
+
+.vtrans {
+  opacity: 0.8;
 }
