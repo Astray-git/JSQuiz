@@ -104,6 +104,7 @@ ol {
   top: 0;
   bottom: 0;
   right: 20px;
+  padding: 0;
   margin: auto 0;
   width: 45px;
   height: 45px;
@@ -163,6 +164,10 @@ ol {
   font-family: 'Roboto Slab', Georgia, serif;
   font-size: 2em;
   color: #3F4944; }
+
+@media screen and (max-width: 769px) {
+  .choice {
+    padding: 15px 10px; } }
 
 @-webkit-keyframes warnAnim {
   0% {

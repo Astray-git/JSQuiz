@@ -131,6 +131,7 @@ max-width: 85%;
   top: 0;
   bottom: 0;
   right: 20px;
+  padding: 0;
   margin: auto 0;
   width: 45px;
   height: 45px;
@@ -193,6 +194,12 @@ max-width: 85%;
   bottom: 20%;
   right: 25%;
   @include font-text(2em);
+}
+
+@media screen and (max-width: 769px) {
+  .choice {
+    padding: 15px 10px;
+  }
 }
 
 @-webkit-keyframes warnAnim {
