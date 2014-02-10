@@ -8,6 +8,7 @@ function getJSON() {
       if (this.status >= 200 && this.status < 400) {
         allQuestions = JSON.parse(this.response);
         qCount = allQuestions.length;
+        CookieUtil.create('lastUser', CookieUtil.read('username'), 7);
         quizInit();
       }
     }
@@ -19,8 +20,12 @@ function getJSON() {
 // Get cookie
 function getCookie(){
   var usrName = CookieUtil.read('username');
+  var lastName = CookieUtil.read('lastUser');
   if(usrName) {
     welcomeText.appendChild(document.createTextNode(', ' + usrName));
+    if (usrName != lastName) {
+      sessionStorage.clear();
+    }
   } else {
     welcomeText.appendChild(document.createTextNode(' to JS Quiz'));
   }
@@ -32,7 +37,7 @@ var // Get key elements
   qNum = document.querySelector('#qnum'),
   qText = document.querySelector('.qtext'),
   answer = document.querySelector('#answer'),
-  qContent = answer.parentNode;
+  qContent = answer.parentNode,
   nextBtn = document.querySelector('#next'),
   prevBtn = document.querySelector('#prev'),
   quizContainer = prevBtn.parentNode,
@@ -42,12 +47,15 @@ var // Get key elements
   startBtn = document.querySelector('#start'),
   fragQuiz = document.querySelector('#frag-quiz'),
   fragResult = document.querySelector('#frag-result'),
-  fragWelcome = document.querySelector('.welcome');
+  fragWelcome = document.querySelector('.welcome'),
   welcomeText = document.querySelector('.wel-text');
 
 // Init Vars
 var curNum = 1,
   qCount,
+  // Users' choices
+  cValue = [], 
+  // Score
   tScore = [],
 // Correct Answer
   cAns = null,
@@ -77,12 +85,15 @@ function quizUp() {
       quizContainer.removeChild(existWarn);
     }
     qContent.className = 'wcontent vhide';
+    qContent.style.visibility = 'hidden';
     setTimeout(function() {
+      qContent.style.visibility = 'visible';
+      prevBtn.className = 'btn cir-r light';
       qContent.className = 'wcontent';
-      qNumCur.nodeValue = ++curNum;
-      qTextCur.nodeValue = allQuestions[curNum - 1].question;
-      choiceGen();
-    }, 500);
+    }, 450);
+    qNumCur.nodeValue = ++curNum;
+    qTextCur.nodeValue = allQuestions[curNum - 1].question;
+    choiceGen();
   }
 }
 
@@ -111,14 +122,37 @@ function choiceGen() {
     answer.appendChild(choice);
   }
   cAns = allQuestions[curNum - 1].correctAnswer;
-  // Add event handlers for 'li'
+  if (curNum == 1) { prevBtn.className = 'btn cir-r light hidden'; }
+  var userChoice = sessionStorage.getItem('Q' + curNum),
+    allChhoice = answer.querySelectorAll('input');
+  if(userChoice) {
+    allChhoice[userChoice].checked = true;
+  }
+  // Add event handlers
   EventUtil.addHandler(answer, 'click', liHandler);
+  EventUtil.addHandler(nextBtn, 'click', nextHandler);
+  EventUtil.addHandler(prevBtn, 'click', prevHandler);
 }
-
+// Handlers
+function nextHandler(e) {
+    e.target.removeEventListener(e.type, arguments.callee);
+    EventUtil.preventDefault(e);
+    nextUp();
+}
+function prevHandler(e) {
+    e.target.removeEventListener(e.type, arguments.callee);
+    EventUtil.preventDefault(e);
+    prevUp();
+}
+function retryHandler(e) {
+    e.target.removeEventListener(e.type, arguments.callee);
+    EventUtil.preventDefault(e);
+    retryUp();
+}
 // Delegate Handler for 'li' click
-function liHandler(event) {
-  event = EventUtil.getEvent(event);
-  var target = EventUtil.getTarget(event);
+function liHandler(e) {
+  e = EventUtil.getEvent(e);
+  var target = EventUtil.getTarget(e);
   if(target.tagName == 'LI'){
     target.firstChild.checked = true;
   }
@@ -126,13 +160,14 @@ function liHandler(event) {
 
 // Choice Checker & Tally Score
 function choiceChk() {
-  var radios = document.querySelectorAll('input[name="answer"]');
+  var radios = answer.querySelectorAll('input');
   // Get the checked choice
   var cValue = null,
-    scoreCur,i,len;
+    scoreCur, i, len;
   for (i = 0, len = radios.length; i < len; i++) {
     if(radios[i].checked) {
       cValue = radios[i].value;
+      sessionStorage.setItem('Q' + curNum, cValue);
     }
   }
   // Check the choice
@@ -140,6 +175,7 @@ function choiceChk() {
     scoreCur = '1';
   } else if (cValue === null) {
     doWarn('Make your choice.', quizContainer, prevBtn);
+    EventUtil.addHandler(nextBtn, 'click', nextHandler);
     return false;
   } else {
     scoreCur = '0';
@@ -157,13 +193,42 @@ var nextUp = function() {
     showResult();
     fragQuiz.className = 'wrapper hidden';
     fragResult.className = 'wrapper';
+    EventUtil.addHandler(retryBtn, 'click', retryHandler);  
   }
+};
+
+// Prev Button
+var prevUp = function() {
+  var existWarn = document.getElementById('choice-warn');
+  var radios = answer.querySelectorAll('input');
+  // Get the checked choice
+  var cValue = null,
+    scoreCur, i, len;
+  for (i = 0, len = radios.length; i < len; i++) {
+    if(radios[i].checked) {
+      cValue = radios[i].value;
+      sessionStorage.setItem('Q' + curNum, cValue);
+    }
+  }
+  if(existWarn) {
+    quizContainer.removeChild(existWarn);
+  }
+    qContent.className = 'wcontent vhide';
+    qContent.style.visibility = 'hidden';
+    setTimeout(function() {
+      qContent.style.visibility = 'visible';
+      qContent.className = 'wcontent';
+    }, 450);
+  qNumCur.nodeValue = --curNum;
+  qTextCur.nodeValue = allQuestions[curNum - 1].question;
+  choiceGen();
 };
 
 // Retry Button
 var retryUp = function() {
   fragQuiz.className = 'wrapper';
   fragResult.className = 'wrapper hidden';
+  prevBtn.className = 'btn cir-r light hidden';
   quizReset();
 };
 
@@ -180,16 +245,9 @@ var startUp = function() {
 };
 
 // Add event handler
-EventUtil.addHandler(nextBtn, 'click', function(event) {
-  EventUtil.preventDefault(event);
-  nextUp();
-});
-EventUtil.addHandler(retryBtn, 'click', function(event) {
-  EventUtil.preventDefault(event);
-  retryUp();
-});
 EventUtil.addHandler(startBtn, 'click', function(event) {
   EventUtil.preventDefault(event);
+  EventUtil.removeHandler(startBtn, 'click', arguments.callee);
   startUp();
 });
 
@@ -227,6 +285,7 @@ function quizReset() {
   // Questions reset
   qNumCur.nodeValue = curNum;
   qTextCur.nodeValue = allQuestions[curNum - 1].question;
+  sessionStorage.clear();
   // Re-Init
   quizInit();  
 }
@@ -234,46 +293,6 @@ function quizReset() {
 //-----------
 // Utilities
 //-----------
-
-// Fade In
-function fadeIn(el) {
-  var opacity = 0;
-  el.style.opacity = 0;
-  el.style.filter = '';
-  var last = +new Date();
-  var tick = function() {
-    opacity += (new Date() - last) / 400;
-    el.style.opacity = opacity;
-    el.style.filter = 'alpha(opacity=' + (100 * opacity)|0 + ')';
-
-    last = +new Date();
-
-    if (opacity < 1) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 100);
-    }
-  };
-  tick();
-}
-
-function fadeOut(el) {
-  var opacity = 1;
-  el.style.opacity = 1;
-  el.style.filter = '';
-  var last = +new Date();
-  var tick = function() {
-    opacity -= (new Date() - last) / 400;
-    el.style.opacity = opacity;
-    el.style.filter = 'alpha(opacity=' + (100 * opacity)|0 + ')';
-
-    last = +new Date();
-
-    if (opacity < 1) {
-      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 100);
-    }
-  };
-  tick();
-  el.style.display = 'none';
-}
 
 // removeAllChild
 function removeAllChild(elems) {

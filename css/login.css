@@ -1,6 +1,6 @@
 .usr-name, .login {
   display: block;
-  height: 50px; }
+  height: 60px; }
 
 .wcontent {
   font-family: 'Roboto Slab', Georgia, serif;
@@ -36,5 +36,13 @@
     text-align: center; }
 
 .login {
-  width: 100px;
-  margin: 10% auto 10%; }
+  width: 120px;
+  margin: 10% auto 10%;
+  position: relative; }
+
+@media screen and (max-width: 640px) {
+  .usr-name {
+    width: 80%; }
+  .login {
+    width: 50%;
+    height: 65px; } }

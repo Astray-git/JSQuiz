@@ -2,10 +2,10 @@
 
 %common {
 	display: block;
-	height: 50px;
+	height: 60px;
 }
 
-@mixin layout($width: 100px, $margin-top: 10%, $margin-bottom: $margin-top) {
+@mixin layout($width: 120px, $margin-top: 10%, $margin-bottom: $margin-top) {
 	width: $width;
 	margin: $margin-top auto $margin-bottom;
 }
@@ -58,4 +58,15 @@
 .login {
 	@extend %common;
 	@include layout();
+	position: relative;
+}
+
+@media screen and (max-width: 640px) {
+  .usr-name {
+    width: 80%;
+  }
+  .login {
+    width: 50%;
+    height: 65px;
+  }
 }
