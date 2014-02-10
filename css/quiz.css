@@ -79,9 +79,9 @@ ol {
   font-family: 'Roboto Slab', Georgia, serif;
   font-size: 2em;
   color: #3F4944;
-  -webkit-transition: opacity 0.5s;
-  -moz-transition: opacity 0.5s;
-  transition: opacity 0.5s; }
+  -webkit-transition: opacity 0.3s ease;
+  -moz-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease; }
   .welcome p {
     margin: 80px auto 0; }
 

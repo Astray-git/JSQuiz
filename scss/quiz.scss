@@ -102,9 +102,9 @@ max-width: 85%;
   box-shadow: 0 0 0 100% rgba(0, 0, 0, 0.3);
   text-align: center;
   @include font-text(2em);
-  -webkit-transition: opacity .5s;
-  -moz-transition: opacity .5s;
-  transition: opacity .5s;
+  -webkit-transition: opacity .3s ease;
+  -moz-transition: opacity .3s ease;
+  transition: opacity .3s ease;
   p {
     margin: 80px auto 0;
   }

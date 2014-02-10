@@ -32,6 +32,7 @@ var // Get key elements
   qNum = document.querySelector('#qnum'),
   qText = document.querySelector('.qtext'),
   answer = document.querySelector('#answer'),
+  qContent = answer.parentNode;
   nextBtn = document.querySelector('#next'),
   prevBtn = document.querySelector('#prev'),
   quizContainer = prevBtn.parentNode,
@@ -75,9 +76,13 @@ function quizUp() {
     if(existWarn) {
       quizContainer.removeChild(existWarn);
     }
-    qNumCur.nodeValue = ++curNum;
-    qTextCur.nodeValue = allQuestions[curNum - 1].question;
-    choiceGen();
+    qContent.className = 'wcontent vhide';
+    setTimeout(function() {
+      qContent.className = 'wcontent';
+      qNumCur.nodeValue = ++curNum;
+      qTextCur.nodeValue = allQuestions[curNum - 1].question;
+      choiceGen();
+    }, 500);
   }
 }
 
@@ -171,7 +176,7 @@ var startUp = function() {
   fragQuiz.className = 'wrapper';
   setTimeout(function() {
     fragWelcome.className = 'welcome hidden';
-  }, 600);
+  }, 350);
 };
 
 // Add event handler

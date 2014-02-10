@@ -30,9 +30,9 @@ h1 {
   background-color: $wrapper-bg;
   border-radius: 5px 5px 0 0;
   box-shadow: 1px 1px 3px rgba(0,0,0,0.6), 0 7px 0 -3px rgba(255, 255, 255, 0.8), 0 8px 1px -3px rgba(0, 0, 0, 0.3);
-  -webkit-transition: .5s ease-in-out;
-  -moz-transition: .5s ease-in-out;
-  transition: .5s ease-in-out;
+  -webkit-transition: .45s ease;
+  -moz-transition: .45s ease;
+  transition: .45s ease;
   .quizpanel{
     position: relative;
     background-color: $highlight;
@@ -47,6 +47,9 @@ h1 {
   }
   .wcontent {
     position: relative;
+    -webkit-transition: opacity .45s ease;
+    -moz-transition: opacity .45s ease;
+    transition: opacity .45s ease;
   }
 }
 
@@ -76,7 +79,7 @@ h1 {
 
 .hidden {
   opacity: 0;
-  //display: none !important;
+  display: none !important;
   visibility: hidden;
 }
 
@@ -85,5 +88,5 @@ h1 {
 }
 
 .vtrans {
-  opacity: 0.8;
+  opacity: 0.7;
 }
