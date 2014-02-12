@@ -1,20 +1,22 @@
 // Get JSON data
 var allQuestions = null;
 function getJSON() {
-  var request = new XMLHttpRequest();
-  request.open('GET', 'quiz.json');
-  request.onreadystatechange = function(){
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function(){
     if(this.readyState == 4) {
-      if (this.status >= 200 && this.status < 400) {
+      if ((this.status >= 200 && this.status < 300) || this.status == 304) {
         allQuestions = JSON.parse(this.response);
         qCount = allQuestions.length;
         CookieUtil.create('lastUser', CookieUtil.read('username'), 7);
         quizInit();
+      } else {
+        console.log('Request was unsuccessful: ' + this.status);
       }
     }
   };
-  request.send();
-  request = null;
+  xhr.open('GET', 'quiz.json', true);
+  xhr.send(null);
+  xhr = null;
 }
 
 // Get cookie
@@ -90,7 +92,7 @@ function quizUp() {
       qContent.style.visibility = 'visible';
       prevBtn.className = 'btn cir-r light';
       qContent.className = 'wcontent';
-    }, 450);
+    }, 200);
     qNumCur.nodeValue = ++curNum;
     qTextCur.nodeValue = allQuestions[curNum - 1].question;
     choiceGen();
@@ -218,7 +220,7 @@ var prevUp = function() {
     setTimeout(function() {
       qContent.style.visibility = 'visible';
       qContent.className = 'wcontent';
-    }, 450);
+    }, 200);
   qNumCur.nodeValue = --curNum;
   qTextCur.nodeValue = allQuestions[curNum - 1].question;
   choiceGen();
@@ -241,7 +243,7 @@ var startUp = function() {
   fragQuiz.className = 'wrapper';
   setTimeout(function() {
     fragWelcome.className = 'welcome hidden';
-  }, 350);
+  }, 100);
 };
 
 // Add event handler

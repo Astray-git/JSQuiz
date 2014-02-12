@@ -191,14 +191,25 @@ max-width: 85%;
 
 #tscore {
   position: absolute;
-  bottom: 20%;
+  height: 50px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   right: 25%;
   @include font-text(2em);
 }
 
 @media screen and (max-width: 769px) {
+  .cir-r {
+    border-radius: 5px;
+  }
   .choice {
     padding: 15px 10px;
+  }
+  ol {
+    li {
+      padding: 15px 0;
+    }
   }
 }
 

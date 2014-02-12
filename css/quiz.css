@@ -159,15 +159,22 @@ ol {
 
 #tscore {
   position: absolute;
-  bottom: 20%;
+  height: 50px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   right: 25%;
   font-family: 'Roboto Slab', Georgia, serif;
   font-size: 2em;
   color: #3F4944; }
 
 @media screen and (max-width: 769px) {
+  .cir-r {
+    border-radius: 5px; }
   .choice {
-    padding: 15px 10px; } }
+    padding: 15px 10px; }
+  ol li {
+    padding: 15px 0; } }
 
 @-webkit-keyframes warnAnim {
   0% {
