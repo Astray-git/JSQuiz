@@ -19,6 +19,18 @@ function getJSON() {
   xhr = null;
 }
 
+// get localStorage
+function getLocalStorage() {
+  if (typeof localStorage == "object") {
+    return localStorage;
+  } else if (typeof globalStorage == "object") {
+    return globalStorage[location.host];
+  } else {
+    throw new Error('Local storage not available');
+  }
+}
+var storage = getLocalStorage();
+
 // Get cookie
 function getCookie(){
   var usrName = CookieUtil.read('username');
@@ -26,7 +38,7 @@ function getCookie(){
   if(usrName) {
     welcomeText.appendChild(document.createTextNode(', ' + usrName));
     if (usrName != lastName) {
-      sessionStorage.clear();
+      storage.clear();
     }
   } else {
     welcomeText.appendChild(document.createTextNode(' to JS Quiz'));
@@ -125,7 +137,7 @@ function choiceGen() {
   }
   cAns = allQuestions[curNum - 1].correctAnswer;
   if (curNum == 1) { prevBtn.className = 'btn cir-r light hidden'; }
-  var userChoice = sessionStorage.getItem('Q' + curNum),
+  var userChoice = storage.getItem('Q' + curNum),
     allChhoice = answer.querySelectorAll('input');
   if(userChoice) {
     allChhoice[userChoice].checked = true;
@@ -169,7 +181,7 @@ function choiceChk() {
   for (i = 0, len = radios.length; i < len; i++) {
     if(radios[i].checked) {
       cValue = radios[i].value;
-      sessionStorage.setItem('Q' + curNum, cValue);
+      storage.setItem('Q' + curNum, cValue);
     }
   }
   // Check the choice
@@ -209,7 +221,7 @@ var prevUp = function() {
   for (i = 0, len = radios.length; i < len; i++) {
     if(radios[i].checked) {
       cValue = radios[i].value;
-      sessionStorage.setItem('Q' + curNum, cValue);
+      storage.setItem('Q' + curNum, cValue);
     }
   }
   if(existWarn) {
@@ -287,7 +299,7 @@ function quizReset() {
   // Questions reset
   qNumCur.nodeValue = curNum;
   qTextCur.nodeValue = allQuestions[curNum - 1].question;
-  sessionStorage.clear();
+  storage.clear();
   // Re-Init
   quizInit();  
 }
