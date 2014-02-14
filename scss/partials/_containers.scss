@@ -1,0 +1,16 @@
+.quiz-container {
+	max-width: 600px;
+  margin: 10px auto;
+  background-color: $container-bg;
+  @include border-top-radius(5px);
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.6), 0 7px 0 -3px rgba(255, 255, 255, 0.8), 0 8px 1px -3px rgba(0, 0, 0, 0.3);
+  @include transition(opacity .45s ease);
+  @include transition(width .3s ease);
+}
+
+.quizpanel{
+  position: relative;
+  background-color: $highlight;
+  @include border-top-radius(5px);
+  box-shadow: inset 0 -3px 4px -3px rgba(102, 102, 102, 0.75);
+}

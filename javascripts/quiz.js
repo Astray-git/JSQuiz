@@ -193,8 +193,8 @@ var nextUp = function() {
     quizUp();
   } else if(choiceChk()) {
     showResult();
-    fragQuiz.className = 'wrapper hidden';
-    fragResult.className = 'wrapper';
+    fragQuiz.className = 'quiz-container hidden';
+    fragResult.className = 'quiz-container';
     EventUtil.addHandler(retryBtn, 'click', retryHandler);  
   }
 };
@@ -228,8 +228,8 @@ var prevUp = function() {
 
 // Retry Button
 var retryUp = function() {
-  fragQuiz.className = 'wrapper';
-  fragResult.className = 'wrapper hidden';
+  fragQuiz.className = 'quiz-container';
+  fragResult.className = 'quiz-container hidden';
   prevBtn.className = 'btn cir-r light hidden';
   quizReset();
 };
@@ -240,7 +240,7 @@ var startUp = function() {
   fragWelcome.className = 'welcome vhide';
   body.removeChild(blurBg);
   body.className = '';
-  fragQuiz.className = 'wrapper';
+  fragQuiz.className = 'quiz-container';
   setTimeout(function() {
     fragWelcome.className = 'welcome hidden';
   }, 100);

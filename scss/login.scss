@@ -1,4 +1,5 @@
 @charset "utf-8";
+@import "partials/base";
 
 %common {
 	display: block;
@@ -9,16 +10,9 @@
 	width: $width;
 	margin: $margin-top auto $margin-bottom;
 }
-@mixin font-text($size: 1.5em) {
-    font: {
-        family: 'Roboto Slab', Georgia, serif;
-        size: $size;
-    }
-    color: #3F4944;
-}
 
 .wcontent {
-	@include font-text;
+	@include font-size($base-font-size * 1.5);
 	max-height: 400px;
 	padding: 10px;
 }
@@ -31,10 +25,7 @@
 	border-radius: 5px;
   background-color: #ddd; /* The Fallback */
   background-color: transparentize(#ddd, 0.3);
-
-  -webkit-transition: all .3s ease-in-out;
-	-moz-transition: all .3s ease-in-out;
-	transition: all .3s ease-in-out;
+  @include transition(.3s ease-in-out);
   &:focus {
   	outline: darken(#ddd, 30%);
 		box-shadow: inset 1px 1px 5px darken(#ddd, 30%);
@@ -61,7 +52,7 @@
 	position: relative;
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 769px) {
   .usr-name {
     width: 80%;
   }

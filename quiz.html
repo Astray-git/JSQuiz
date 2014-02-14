@@ -22,19 +22,18 @@
       if (!cssLoaded('font-awesome.min.css')) {
         local_bootstrap = new CustomEvent('link');
         local_bootstrap.setAttribute("rel", "stylesheet");
-        local_bootstrap.setAttribute("href", "/css/font-awesome.min.css");
+        local_bootstrap.setAttribute("href", "/css/vendor/font-awesome.min.css");
         document.getElementsByTagName("head")[0].appendChild(local_bootstrap);
       }
     </script>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/quiz.css"> 
   </head>
   <body class="modalBlur">
     <header><h1>JS Quiz</h1></header>
-    <div class="wrapper vtrans" id="frag-quiz">
+    <div class="quiz-container vtrans" id="frag-quiz">
       <div class="quizpanel">
         <h2 class="ptitle">Question <span id="qnum"></span></h2>
         <button name="prev" class="btn cir-r light hidden" id="prev">
@@ -51,7 +50,7 @@
         <ul id="answer"></ul>
       </div>
     </div>
-    <div class="wrapper hidden" id="frag-result">
+    <div class="quiz-container hidden" id="frag-result">
       <div class="quizpanel">
         <h2 class="ptitle">Result</h2>
         <button name="retry" class="btn cir-r light" id="retry">
