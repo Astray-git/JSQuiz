@@ -20,6 +20,7 @@
 .usr-name {
 	@extend %common;
 	@include layout(300px, 15%, 0);
+	text-align: center;
 	padding: 1px 10px;
 	border: 1px solid transparent;
 	border-radius: 5px;
@@ -29,6 +30,7 @@
   &:focus {
   	outline: darken(#ddd, 30%);
 		box-shadow: inset 1px 1px 5px darken(#ddd, 30%);
+		text-align: left;
 	}
 	&::-webkit-input-placeholder {
 	  text-align: center;

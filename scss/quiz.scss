@@ -179,6 +179,16 @@ max-width: 85%;
   }
 }
 
+@media screen
+and (min-width: 768px) 
+and (max-width: 769px)
+{
+  .cir-r {
+    width: 55px;
+  }
+}
+
+
 @include keyframes(warnAnim) {
   0% {
     top: -34px;

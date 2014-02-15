@@ -19,18 +19,6 @@ function getJSON() {
   xhr = null;
 }
 
-// get localStorage
-function getLocalStorage() {
-  if (typeof localStorage == "object") {
-    return localStorage;
-  } else if (typeof globalStorage == "object") {
-    return globalStorage[location.host];
-  } else {
-    throw new Error('Local storage not available');
-  }
-}
-var storage = getLocalStorage();
-
 // Get cookie
 function getCookie(){
   var usrName = CookieUtil.read('username');
@@ -67,15 +55,15 @@ var // Get key elements
 // Init Vars
 var curNum = 1,
   qCount,
-  // Users' choices
-  cValue = [], 
   // Score
   tScore = [],
-// Correct Answer
+  // Correct Answer
   cAns = null,
-// Question Nodes
+  // Question Nodes
   qNumCur = null,
-  qTextCur = null;
+  qTextCur = null,
+  // Existing warning message
+  existWarn = null;
 
 function quizInit() {
   curNum = 1;
@@ -91,24 +79,77 @@ function quizInit() {
   choiceGen();
 }
 
-// Quiz Update Function
-function quizUp() {
-  if(choiceChk()) {
-    var existWarn = document.getElementById('choice-warn');
-    if(existWarn) {
-      quizContainer.removeChild(existWarn);
+function getChoice() {
+  var radios = answer.querySelectorAll('input');
+  var choice = null,
+    i,len;
+  for (i = 0, len = radios.length; i < len; i++) {
+    if(radios[i].checked) {
+      choice = radios[i].value;
+      storage.setItem('Q' + curNum, choice);
     }
+  }
+  return choice;
+}
+
+function loadLocalChoice(location){
+  var localChoice = storage.getItem(location),
+    allChoice = answer.querySelectorAll('input');
+  if(localChoice) {
+    allChoice[localChoice].checked = true;
+  }
+}
+
+// Choice Checker & Tally Score
+function choiceChk() {
+  var scoreCur;
+  // Check the choice
+  switch(getChoice()) {
+    case cAns :
+      scoreCur = '1';
+      break;
+    case null :
+      doWarn('Make your choice.', quizContainer, prevBtn);
+      EventUtil.addHandler(nextBtn, 'click', nextHandler);
+      return false;
+    default :
+      scoreCur = '0';
+  }
+  // Tally score
+  tScore[curNum - 1] = scoreCur;
+  return true;
+}
+
+// Quiz Update Function
+function quizNext() {
+  removeWarn();
+  if(choiceChk()) {
     qContent.className = 'wcontent vhide';
     qContent.style.visibility = 'hidden';
     setTimeout(function() {
       qContent.style.visibility = 'visible';
-      prevBtn.className = 'btn cir-r light';
       qContent.className = 'wcontent';
+            prevBtn.className = 'btn cir-r light';
     }, 200);
     qNumCur.nodeValue = ++curNum;
     qTextCur.nodeValue = allQuestions[curNum - 1].question;
     choiceGen();
   }
+}
+
+function quizPrev() {
+  removeWarn();
+  // Get the checked choice
+  getChoice();
+  qContent.className = 'wcontent vhide';
+  qContent.style.visibility = 'hidden';
+  setTimeout(function() {
+    qContent.style.visibility = 'visible';
+    qContent.className = 'wcontent';
+  }, 200);
+  qNumCur.nodeValue = --curNum;
+  qTextCur.nodeValue = allQuestions[curNum - 1].question;
+  choiceGen();
 }
 
 // Choices
@@ -120,28 +161,26 @@ function choiceGen() {
 
   var cCount, cLen;
   for(cCount = 1, cLen = allQuestions[curNum - 1].choices.length; cCount <= cLen; cCount++) {
-    var choice = document.createElement('li');
-    choice.className = 'choice';
-    var choiceItem = document.createElement('input');
-    choiceItem.type = 'radio';
-    choiceItem.value = cCount - 1;
-    choiceItem.name = 'answer';
-    choiceItem.id = 'ci' + cCount;
+    var choiceLi = document.createElement('li');
+    choiceLi.className = 'choice';
+    var choiceBtn = document.createElement('input');
+    choiceBtn.type = 'radio';
+    choiceBtn.value = cCount - 1;
+    choiceBtn.name = 'answer';
+    choiceBtn.id = 'ci' + cCount;
     var choiceLabel = document.createElement('label');
     choiceLabel.setAttribute('for', 'ci' + cCount);
     var labelText = document.createTextNode(allQuestions[curNum - 1].choices[cCount - 1]);
     choiceLabel.appendChild(labelText);
-    choice.appendChild(choiceItem);
-    choice.appendChild(choiceLabel);
-    answer.appendChild(choice);
+    choiceLi.appendChild(choiceBtn);
+    choiceLi.appendChild(choiceLabel);
+    answer.appendChild(choiceLi);
   }
-  cAns = allQuestions[curNum - 1].correctAnswer;
+  cAns = allQuestions[curNum - 1].correctAnswer.toString();
+  // prev button
   if (curNum == 1) { prevBtn.className = 'btn cir-r light hidden'; }
-  var userChoice = storage.getItem('Q' + curNum),
-    allChhoice = answer.querySelectorAll('input');
-  if(userChoice) {
-    allChhoice[userChoice].checked = true;
-  }
+  // get previous choice
+  loadLocalChoice('Q' + curNum);
   // Add event handlers
   EventUtil.addHandler(answer, 'click', liHandler);
   EventUtil.addHandler(nextBtn, 'click', nextHandler);
@@ -156,7 +195,7 @@ function nextHandler(e) {
 function prevHandler(e) {
     e.target.removeEventListener(e.type, arguments.callee);
     EventUtil.preventDefault(e);
-    prevUp();
+    quizPrev();
 }
 function retryHandler(e) {
     e.target.removeEventListener(e.type, arguments.callee);
@@ -172,80 +211,6 @@ function liHandler(e) {
   }
 }
 
-// Choice Checker & Tally Score
-function choiceChk() {
-  var radios = answer.querySelectorAll('input');
-  // Get the checked choice
-  var cValue = null,
-    scoreCur, i, len;
-  for (i = 0, len = radios.length; i < len; i++) {
-    if(radios[i].checked) {
-      cValue = radios[i].value;
-      storage.setItem('Q' + curNum, cValue);
-    }
-  }
-  // Check the choice
-  if (cValue == cAns) {
-    scoreCur = '1';
-  } else if (cValue === null) {
-    doWarn('Make your choice.', quizContainer, prevBtn);
-    EventUtil.addHandler(nextBtn, 'click', nextHandler);
-    return false;
-  } else {
-    scoreCur = '0';
-  }
-  // Tally score
-  tScore[curNum - 1] = scoreCur;
-  return true;
-}
-
-// Next Button
-var nextUp = function() {
-  if (curNum < qCount) {
-    quizUp();
-  } else if(choiceChk()) {
-    showResult();
-    fragQuiz.className = 'quiz-container hidden';
-    fragResult.className = 'quiz-container';
-    EventUtil.addHandler(retryBtn, 'click', retryHandler);  
-  }
-};
-
-// Prev Button
-var prevUp = function() {
-  var existWarn = document.getElementById('choice-warn');
-  var radios = answer.querySelectorAll('input');
-  // Get the checked choice
-  var cValue = null,
-    scoreCur, i, len;
-  for (i = 0, len = radios.length; i < len; i++) {
-    if(radios[i].checked) {
-      cValue = radios[i].value;
-      storage.setItem('Q' + curNum, cValue);
-    }
-  }
-  if(existWarn) {
-    quizContainer.removeChild(existWarn);
-  }
-    qContent.className = 'wcontent vhide';
-    qContent.style.visibility = 'hidden';
-    setTimeout(function() {
-      qContent.style.visibility = 'visible';
-      qContent.className = 'wcontent';
-    }, 200);
-  qNumCur.nodeValue = --curNum;
-  qTextCur.nodeValue = allQuestions[curNum - 1].question;
-  choiceGen();
-};
-
-// Retry Button
-var retryUp = function() {
-  fragQuiz.className = 'quiz-container';
-  fragResult.className = 'quiz-container hidden';
-  prevBtn.className = 'btn cir-r light hidden';
-  quizReset();
-};
-
 // Start Button
 var startUp = function() {
   var blurBg = document.querySelector('.blur-bg');
@@ -256,6 +221,26 @@ var startUp = function() {
   setTimeout(function() {
     fragWelcome.className = 'welcome hidden';
   }, 100);
+};
+
+// Next Button
+var nextUp = function() {         // TODO: nextUp(checkedAns, callback){};
+  if (curNum < qCount) {
+    quizNext();
+  } else if(choiceChk()) {
+    showResult();
+    fragQuiz.className = 'quiz-container hidden';
+    fragResult.className = 'quiz-container';
+    EventUtil.addHandler(retryBtn, 'click', retryHandler);
+  }
+};
+
+// Retry Button
+var retryUp = function() {
+  fragQuiz.className = 'quiz-container';
+  fragResult.className = 'quiz-container hidden';
+  prevBtn.className = 'btn cir-r light hidden';
+  quizReset();
 };
 
 // Add event handler
@@ -284,7 +269,7 @@ function showResult() {
     result.appendChild(qScore);
   }
   var tText = document.createTextNode(corCount + '/' +qCount);
-  tsText.appendChild(tText); 
+  tsText.appendChild(tText);
 }
 
 // Quiz Reset
@@ -301,12 +286,24 @@ function quizReset() {
   qTextCur.nodeValue = allQuestions[curNum - 1].question;
   storage.clear();
   // Re-Init
-  quizInit();  
+  quizInit();
 }
 
 //-----------
 // Utilities
 //-----------
+
+// get localStorage
+function getLocalStorage() {
+  if (typeof localStorage == "object") {
+    return localStorage;
+  } else if (typeof globalStorage == "object") {
+    return globalStorage[location.host];
+  } else {
+    throw new Error('Local storage not available');
+  }
+}
+var storage = getLocalStorage();
 
 // removeAllChild
 function removeAllChild(elems) {
@@ -318,16 +315,20 @@ function removeAllChild(elems) {
   }
 }
 
-// Show warning text
-function doWarn(text, container, before) {
+// Warning message
+function removeWarn(){
+  existWarn = document.getElementById('choice-warn');
+  if(existWarn) {
+    quizContainer.removeChild(existWarn);
+  }
+}
+
+function doWarn(message, container, before) {
   var choiceWarn = document.createElement('p');
   choiceWarn.setAttribute('id', 'choice-warn');
-  var warnText = document.createTextNode(text);
+  var warnText = document.createTextNode(message);
   choiceWarn.appendChild(warnText);
-  var existWarn = document.getElementById('choice-warn');
-  if (existWarn) {
-    container.removeChild(existWarn);
-  }
+  removeWarn();
   container.insertBefore(choiceWarn, before);
 }
 
