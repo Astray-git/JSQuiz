@@ -21,13 +21,15 @@
   /* The Fallback */
   background-color: rgba(221, 221, 221, 0.7);
   -webkit-transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -ms-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
   /* Firefox 19+ */
   /* Firefox 18- */
 }
 .usr-name:focus {
   outline: #919191;
-  -webkit-box-shadow: inset 1px 1px 5px #919191;
   box-shadow: inset 1px 1px 5px #919191;
   text-align: left;
 }
@@ -38,6 +40,9 @@
   text-align: center;
 }
 .usr-name:-ms-input-placeholder {
+  text-align: center;
+}
+.usr-name:-moz-placeholder {
   text-align: center;
 }
 

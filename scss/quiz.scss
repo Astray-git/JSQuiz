@@ -132,16 +132,7 @@ max-width: 85%;
   }
 }
 
-#start {
-  display: block;
-  position: relative;
-  text-decoration: none;
-  width: 160px;
-  padding: 5px 0;
-  margin: 50px auto 0;
-}
-
-#choice-warn {
+.warn {
   display: inline-block;
   position: relative;
   text-align: center;
@@ -156,7 +147,14 @@ max-width: 85%;
   @include animation(warnAnim .5s ease-out 0s 1 forwards);
 }
 
-
+#start {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  width: 160px;
+  padding: 5px 0;
+  margin: 50px auto 0;
+}
 
 #tscore {
   @include abs-pos(0,25%,0);
@@ -187,7 +185,6 @@ and (max-width: 769px)
     width: 55px;
   }
 }
-
 
 @include keyframes(warnAnim) {
   0% {
