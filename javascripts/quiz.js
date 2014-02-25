@@ -300,7 +300,7 @@ function quizReset() {
   prevBtn.className = 'btn cir-r light hidden';
   // Remove existing nodes
   removeAllChild(qNum, qText);
-  tScore = [];
+  tScore.length = 0;
   storage.clear();
   quizInit();
 }
